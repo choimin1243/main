@@ -105,7 +105,7 @@ def generate_evaluation(sent):
         return response['choices'][0]['message']['content']
     else:
         model = genai.GenerativeModel('gemini-pro')
-        response = model.generate_content(prompt+"-함. -하였음과 같이 종결어미를 써주시고 4문장으로 완성해주세요. 주어를 생략해주세요. 예를들어 '학생은 ~ 수행함'과같이 여러문장을 적어주세요")
+        response = model.generate_content(prompt+"-함. -하였음과 같이 종결어미를 써주시고 4문장으로 완성해주세요. 주어를 생략해주세요. 예를들어 '학생은 ~ 수행함'과같이 학생을 평가하는 말을 여러문장으로 교과내용과 관련하여 구체적으로 적어주세요")
         return response.text
 
 
