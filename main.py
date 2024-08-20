@@ -6,6 +6,7 @@ from sqlalchemy.orm import sessionmaker, declarative_base
 import pandas as pd
 from st_aggrid import AgGrid, GridOptionsBuilder, GridUpdateMode
 from io import BytesIO
+import os
 
 # Import both OpenAI and Google Generative AI
 import openai
@@ -116,11 +117,11 @@ def openate(file):
     for s in range(len(name)):
         sent = "당신은 교사입니다. 다음 학생은 "
         for i in range(1, len(field_names) + 1):
-            if file.iloc[s, i].strip() == "상":
+            if file.iloc[s, i]== "상":
                 sent += f"({field_names[i - 1].replace('/n', '')})의 평가에 있어서는 놀라운 성취를 보여주었습니다."
-            elif file.iloc[s, i].strip() == "중":
+            elif file.iloc[s, i]== "중":
                 sent += f"({field_names[i - 1].replace('/n', '')})의 평가에 있어서는 좋은 모습을 보여주었습니다."
-            elif file.iloc[s, i].strip() == "하":
+            elif file.iloc[s, i]== "하":
                 sent += f"({field_names[i - 1].replace('/n', '')})의 평가에 있어서는 부족한 모습을 보여주었습니다."
             else:
                 sent += f"({field_names[i - 1].replace('/n', '')})의 평가에 있어서는 나쁘지 않은 수준의 모습을 보여주었습니다."
@@ -132,6 +133,24 @@ def openate(file):
 
     file["평가"] = evaluations
     return file
+
+
+
+file_path = os.path.join(os.path.dirname(__file__), "excel.xlsx")
+
+# 파일이 존재하는지 확인
+if os.path.exists(file_path):
+    # 파일 읽기
+    with open(file_path, "rb") as file:
+        btn = st.download_button(
+            label="엑셀 양식 다운로드",
+            data=file,
+            file_name="excel.xlsx",
+            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        )
+
+
+
 
 
 if uploaded_excel is not None:
